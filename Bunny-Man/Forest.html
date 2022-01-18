@@ -28,6 +28,49 @@
 <!-- var light1 = new BABYLON.HemisphericLight("Light1", new BABYLON.Vector3(1, 1, 0), scene); -->
 <body>
     <canvas id="render" touch-action="none">
+        <script type="application/vertexShader" id="vertexShaderCode">
+            #ifdef GL_ES
+                precision highp float;
+            #endif
+
+            // Attributes
+
+            attribute vec3 position;
+            attribute vec2 uv;
+
+            // Uniforms
+
+            uniform mat4 worldViewProjection;
+            
+            // Normal
+            
+            varying vec2 vUV;
+
+            uniform float time;
+
+            void main(void) {
+                vec3 v = position;
+                v.z += sin(2.0 * position.x+ (time)) * 0.5;
+                gl_Position =  worldViewProjection * vec4(v, 1.0);
+                vUV   = uv;
+            }
+        </script>
+
+        <script type="application/fragmentShader" id="fragmentShaderCode">
+            #ifdef GL_ES
+                precision mediump float;
+            #endif
+
+            varying vec2 vUV;
+
+            uniform sampler2D textureSampler;
+
+            void main(void) {
+                float luminance = dot(texture2D(textureSampler, vUV).rgb, vec3(0.3, 0.59, 0.11));
+                gl_FragColor= texture2D(textureSampler, vUV);
+            }
+        </script>
+        
         <script src="Forest.js"></script>
     </canvas>
 </body>

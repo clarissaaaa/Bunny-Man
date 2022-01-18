@@ -102,7 +102,7 @@ var createScene = function() {
 
     // Ground
     var grassMaterial = new BABYLON.StandardMaterial("bawl", scene);
-    var grassTexture = new BABYLON.GrassProceduralTexture("textbawl", 256, scene);
+    var grassTexture = new BABYLON.GrassProceduralTexture("textbawl", 1000, scene);
     grassMaterial.ambientTexture = grassTexture;
 
     var ground = BABYLON.MeshBuilder.CreateGround("myGround", {width: 1000, height: 1000, subdivisions: 4}, scene);
@@ -158,8 +158,17 @@ var createScene = function() {
         campFire.material = wonderfulMtl;                    
     });
 
+    const PoliceCar = BABYLON.SceneLoader.ImportMeshAsync("", "./Model/Car/", "PoliceCar.obj", scene).then ((result) => {          
+        for(let i = 0; i < result.meshes.length; i++){
+            var policeCar = result.meshes[i];
+            policeCar.rotation.y += 0.8;
+            policeCar.position = new BABYLON.Vector3(10, 0, -25);   
+            policeCar.scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);           
+        }          
+    });
+
     const Bridge = BABYLON.SceneLoader.ImportMeshAsync("", "./Model/Bridge/", "bridge.obj", scene).then ((result) => {    
-        console.log(result);
+        //console.log(result);
         for(let i = 0; i < result.meshes.length; i++){
             var bridge = result.meshes[i];
             bridge.position = new BABYLON.Vector3(0, 0, 150);
@@ -176,7 +185,7 @@ var createScene = function() {
     });
 
     const hangedRabbit = BABYLON.SceneLoader.ImportMeshAsync("", "./Model/Hunged rabbit/", "ded.obj", scene).then ((result) => {    
-        console.log(result);
+        //console.log(result);
         for(let i = 0; i < result.meshes.length; i++){
             var dedRabbit = result.meshes[i];
             dedRabbit.scaling = new BABYLON.Vector3(.5, .5, .5);
@@ -287,7 +296,7 @@ var createScene = function() {
     canvas.onclick = function() {
         canvas.requestPointerLock();
     }
-    console.log(camera.inputs);
+    //console.log(camera.inputs);
 
     // Making WASD for movement
     scene.onBeforeRenderObservable.add(() => {

@@ -31,8 +31,8 @@ scene.add(pointLight, ambientLight);
 
 // Background
 
-const spaceTexture = new THREE.TextureLoader().load('space.jpg');
-scene.background = spaceTexture;
+// const paperTexture = new THREE.TextureLoader().load('./images/paper.jpg');
+// scene.background = paperTexture;
 
 
 // const controls = new OrbitControls(camera, renderer.domElement)
@@ -58,7 +58,7 @@ loader.load( './images/photo1/scene.gltf', function ( gltf ) {
 loader.load( './images/camera/scene.gltf', function ( gltf ) {
   const photo = gltf.scene.children[0]
   photo.scale.set(0.007,0.007,0.007)
-  photo.position.z = 3
+  photo.position.z = 4
   photo.position.x = 2.5
   photo.position.y = 0
   photo.rotation.z = -0.5
@@ -72,7 +72,7 @@ console.error( error );
 loader.load( './images/photo2/scene.gltf', function ( gltf ) {
     const photo = gltf.scene.children[0]
     photo.scale.set(0.04,0.04,0.04)
-    photo.position.z = 3.5
+    photo.position.z = 5.5
     photo.position.x = 1
     photo.position.y = -0.5
     photo.rotation.z = 1
@@ -85,21 +85,7 @@ loader.load( './images/photo2/scene.gltf', function ( gltf ) {
 loader.load( './images/bunny/scene.gltf', function ( gltf ) {
   const photo = gltf.scene.children[0]
   photo.scale.set(0.001,0.001,0.001)
-  photo.position.z = 8
-  photo.position.x = 1.5
-  photo.position.y = -0.5
-  photo.rotation.z = 20
-  photo.rotation.x = 5
-  photo.rotation.y = 6
-scene.add( gltf.scene );
-}, undefined, function ( error ) {
-console.error( error );
-} );
-
-loader.load( './images/bunny/scene.gltf', function ( gltf ) {
-  const photo = gltf.scene.children[0]
-  photo.scale.set(0.001,0.001,0.001)
-  photo.position.z = 8
+  photo.position.z = 12
   photo.position.x = 1.5
   photo.position.y = -0.5
   photo.rotation.z = 20
@@ -113,11 +99,11 @@ console.error( error );
 loader.load( './images/photo3/scene.gltf', function ( gltf ) {
   const photo = gltf.scene.children[0]
   photo.scale.set(0.1,0.1,0.1)
-  photo.position.z = 9
-  photo.position.x = -4.5
-  photo.position.y = -1.5
+  photo.position.z = 16
+  photo.position.x = 0
+  photo.position.y = -1
   photo.rotation.z = 1
-  photo.rotation.x = 6
+  photo.rotation.x = 5
   photo.rotation.y = 1
 scene.add( gltf.scene );
 }, undefined, function ( error ) {

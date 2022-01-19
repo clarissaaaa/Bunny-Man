@@ -1,4 +1,6 @@
 # Bunny-Man
+![GitHub repo size](https://img.shields.io/github/repo-size/clarissaaaa/Bunny-Man?color=red&logo=GitHub&style=flat-square)
+
 An interactive storytelling game in WebGL made using three.js
 
 ## Preview

@@ -243,7 +243,7 @@ var createScene = function() {
             if(x == dedRabbit) {
                 console.log("suppose to work");
                 Scream.play();
-                window.location.href = "index.html";
+                window.location.href = "end.html";
             }
         }                    
     });

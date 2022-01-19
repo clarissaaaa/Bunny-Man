@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lan="en">
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Bunny Man | Home </title>
+    <link rel="stylesheet" href="tailwind.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,700&family=Lato&display=swap" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        -webkit-font-smoothing:
+          antialiased;
+      }
+
+      .font-exo {
+        font-family: 'Exo 2', sans-serif;
+      }
+
+      .font-lato {
+        font-family: 'Lato', sans-serif;
+      }
+      
+      .main {
+        position: absolute;
+      }
+      
+    </style>
+  </head>
+  <body>
+      <div class="flex h-screen bg-black">
+        <div class="w-1/2 flex flex-col justify-center px-8">
+          <div style="max-width:500px;" class="mx-auto">
+          <h1 class="text-red-600 text-6xl mb-8 font-exo leading-none">Enjoyed the visual story of our game concept?</h1>
+            <div>
+              <a href="index.html" class="text-white bg-red-600 inline-block px-8 py-4 rounded-full font-lato">Download the game</a>
+            </div>
+          </div>
+        </div>
+        <div class="w-1/2" id="canvasContainer">
+          <canvas></canvas>
+        </div> 
+      </div>
+      <script src="./main.js" type="module"></script>
+  </body>
+</html>
+

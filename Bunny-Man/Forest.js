@@ -34,6 +34,18 @@ BABYLON.DefaultLoadingScreen.prototype.hideLoadingUI = function(){
     console.log("scene is now loaded");
 }
 
+// var textScreenTime = 8;
+// var isTextStillOnScreen = false;
+// for (let y = 0; y < textScreenTime; y++){
+//     isTextStillOnScreen = true;
+//     document.getElementById('textTimer').innerHTML = "Looks like someone is here..."+ textScreenTime;
+//     if (y >= textScreenTime)
+//     {
+//        document.getElementById('textTimer').innerHTML = "";                  
+//        isTextStillOnScreen = false;
+//     }
+// }   
+
 var createScene = function() {
     engine.enableOfflineSupport = false;
     engine.displayLoadingUI();
@@ -67,7 +79,7 @@ var createScene = function() {
     cameraSpotlight.range = 70;
 
     var directionalLight = new BABYLON.DirectionalLight("directional", new BABYLON.Vector3(0, -1, 0), scene); 
-    directionalLight.intensity = 0.2; // above this intensity just make it super bright 
+    directionalLight.intensity = 0.2; // above this intensity just make it super bright but if you cant see anything just up this
 
     // Flashlight 
     scene.onBeforeRenderObservable.add(()=>{
@@ -91,7 +103,6 @@ var createScene = function() {
     wallFront.position = new BABYLON.Vector3(0, 0, 160);
     wallFront.checkCollisions = true;
     wallFront.isVisible = false;
-
 
     var wallRight = BABYLON.MeshBuilder.CreateBox("RightBox", {width: 400, height: 20});
     wallRight.position = new BABYLON.Vector3(40, 0, 0);
@@ -139,6 +150,26 @@ var createScene = function() {
         set.start(new BABYLON.Vector3(2, 1, 10));
     });
 
+    // Sound effects Havent find a way to know if audio is playing
+    var backgroundMusic = new BABYLON.Sound("music", "./Audio/BackgroundNight.mp3", scene, soundReady, {loop:true, volume: 0.5});
+    var noWay = new BABYLON.Sound("music", "./Audio/refusal_2_sean.wav", scene, {volume: 0.3});
+    var Scream = new BABYLON.Sound("music", "./Audio/shouting_4_sean.wav", scene, {volume: 0.1});
+
+    // How to call the sound effects
+    function soundReady() {
+        backgroundMusic.play();
+    }
+
+    var audioIsPlaying = false;
+    
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    // var endingBox = BABYLON.MeshBuilder.CreateBox("endingBox", {width: 40, height: 20});
+    // endingBox.position = new BABYLON.Vector3(0, 0, 150);
+    // endingBox.checkCollisions = true;
+
+    
+
     // Load all model below
     const campFire = BABYLON.SceneLoader.ImportMeshAsync("", "./Model/campFire/", "campFire.obj", scene).then ((result) => {          
         var campFire = result.meshes[0];
@@ -155,7 +186,16 @@ var createScene = function() {
         wonderfulMtl.diffuseTexture = new BABYLON.Texture("./Model/campFire/campBaseColor.png", scene);
 
         // Yes
-        campFire.material = wonderfulMtl;                    
+        campFire.material = wonderfulMtl;
+        
+        // For text
+        campFire.checkCollisions = true;
+
+        // camera.onCollide = function(x) {
+        //     if(x == campFire) {
+        //         noWay.play()
+        //     }
+        // }                    
     });
 
     const PoliceCar = BABYLON.SceneLoader.ImportMeshAsync("", "./Model/Car/", "PoliceCar.obj", scene).then ((result) => {          
@@ -184,13 +224,28 @@ var createScene = function() {
         bridgeLight.specular = new BABYLON.Color3(1, 0, 0);
     });
 
-    const hangedRabbit = BABYLON.SceneLoader.ImportMeshAsync("", "./Model/Hunged rabbit/", "ded.obj", scene).then ((result) => {    
-        //console.log(result);
-        for(let i = 0; i < result.meshes.length; i++){
-            var dedRabbit = result.meshes[i];
-            dedRabbit.scaling = new BABYLON.Vector3(.5, .5, .5);
-            dedRabbit.position = new BABYLON.Vector3(0, 4, 150);
-        }
+    const hangedRabbit = BABYLON.SceneLoader.ImportMesh("", "./Model/Hunged rabbit/", "ded.obj", scene, 
+        function(newMeshes) {
+            var meshes = [];
+            newMeshes.forEach(function (mesh) {
+                if (!mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind)){
+                    console.log("problems with: " + mesh.name);
+                } else {
+                    meshes.push(mesh);
+                }
+            })
+
+        var dedRabbit = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
+        dedRabbit.scaling = new BABYLON.Vector3(.5, .5, .5);
+        dedRabbit.position = new BABYLON.Vector3(0, 2, 150);    
+        dedRabbit.checkCollisions = true;
+        camera.onCollide = function(x) {
+            if(x == dedRabbit) {
+                console.log("suppose to work");
+                Scream.play();
+                window.location.href = "index.html";
+            }
+        }                    
     });
     
     // This is clump of trees so need to import many to look like a forest :v
@@ -305,8 +360,8 @@ var createScene = function() {
         camera.inputs.attached.keyboard.keysRight[0] = 68;
         camera.inputs.attached.keyboard.keysDown[0] = 83;
 
-    });
-
+    });    
+    
     // scene.environmentTexture = new BABYLON.CubeTexture.CreateFromPrefilteredData("textures/environment.env", scene);
 
     return scene;
